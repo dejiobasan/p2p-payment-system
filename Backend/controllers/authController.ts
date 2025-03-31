@@ -3,7 +3,6 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/User";
 
-
 const JWT_SECRET = process.env.JWT_SECRET || "secret";
 const saltRounds = process.env.saltRounds || 10;
 
@@ -31,7 +30,7 @@ export const register = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-export const login = async ( req: Request, res: Response): Promise<any> => {
+export const login = async (req: Request, res: Response): Promise<any> => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
@@ -39,7 +38,7 @@ export const login = async ( req: Request, res: Response): Promise<any> => {
     if (!user || !(await bcrypt.compare(password, user.password)))
       return res.status(401).json({ message: "Invalid credentials" });
 
-    const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
+    const token = jwt.sign({ userId: user._id }, JWT_SECRET as string, {
       expiresIn: "1h",
     });
 
@@ -57,10 +56,12 @@ export const login = async ( req: Request, res: Response): Promise<any> => {
   }
 };
 
-export const getUsers = async (req: Request, res: Response): Promise<any>  => {
+export const getUsers = async (req: Request, res: Response): Promise<any> => {
   try {
     const loggedInUserId = (req as any).user.id;
-    const users = await User.find({ _id: { $ne: loggedInUserId } }).select("_id name email");
+    const users = await User.find({ _id: { $ne: loggedInUserId } }).select(
+      "_id name email"
+    );
     res.json(users);
   } catch (error) {
     console.error("Error fetching users:", error);
@@ -75,19 +76,32 @@ export const addFunds = async (req: Request, res: Response): Promise<any> => {
     if (!user) return res.status(404).json({ message: "User not found" });
     user.balance += amount;
     await user.save();
-    res.status(200).json({ message: "Funds added successfully" });
+    res.status(200).json({
+      success: true,
+      message: "Funds added successfully",
+      newBalance: {
+        email: user.email,
+        balance: user.balance,
+      },
+    });
   } catch (error) {
     res.status(500).json({ error: (error as Error).message });
   }
-}
+};
 
 export const getBalance = async (req: Request, res: Response): Promise<any> => {
   const { id } = req.params;
   try {
     const user = await User.findById(id);
     if (!user) return res.status(404).json({ message: "User not found" });
-    res.status(200).json({ balance: user.balance });
+    res.status(200).json({
+      User: 
+        {
+          email: user.email,
+          balance: user.balance,
+        },
+     });
   } catch (error) {
     res.status(500).json({ error: (error as Error).message });
   }
-}
+};

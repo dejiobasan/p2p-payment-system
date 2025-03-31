@@ -84,8 +84,6 @@ export const getTransactionHistory = async (req: Request, res: Response): Promis
       .sort({ timestamp: -1 });
 
     return res.status(200).json(transactions);
-
-    res.status(200).json({ message: "Transaction history fetched successfully" });
   } catch (error) {
     res.status(500).json({ error: (error as Error).message });
   }
