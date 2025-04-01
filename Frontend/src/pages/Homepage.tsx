@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import shapeBg from "../Images/Shape.png";
 import Nav from "../components/Navbars/nav";
 
@@ -25,21 +24,6 @@ const Homepage = () => {
             </p>
           </div>
         </main>
-      </div>
-
-      <div className="flex justify-center items-center gap-4">
-        <Link
-          to="/register"
-          className="flex items-center bg-blue-950 text-white py-3 px-4 rounded-lg hover:bg-blue-900 transition-all duration-300 mr-4"
-        >
-          Register
-        </Link>
-        <Link
-          to="/login"
-          className="flex items-center bg-blue-950 text-white py-3 px-4 rounded-lg hover:bg-blue-900 transition-all duration-300"
-        >
-          Login
-        </Link>
       </div>
     </div>
   );
