@@ -2,8 +2,9 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import Homepage from "./pages/Homepage";
 import Loginpage from "./pages/Loginpage";
-import Registerpage from "./pages/Registerpage";
+import Registerpage from "./pages/RegisterPage";
 function App() {
+  const user = null;
   return (
     <>
       <Routes>
