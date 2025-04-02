@@ -21,8 +21,10 @@ export const register = async (req: Request, res: Response): Promise<any> => {
       success: true,
       message: "User registered successfully",
       User: {
+        id: newUser._id,
         username: newUser.username,
         email: newUser.email,
+        balance: newUser.balance,
       },
     });
   } catch (error) {
@@ -46,8 +48,10 @@ export const login = async (req: Request, res: Response): Promise<any> => {
       success: true,
       message: "Login successful",
       User: {
+        id: user._id,
         username: user.username,
         email: user.email,
+        balance: user.balance
       },
       token,
     });
