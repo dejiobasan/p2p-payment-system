@@ -49,7 +49,7 @@ const LoginForm = () => {
               type="email"
               name="email"
               value={formData.email}
-              id="username"
+              id="email"
               onChange={HandleChange}
               className="block w-full text-2xl border rounded-md border-gray-300 bg-gray-50 px-3 py-1.5 placeholder:text-sm focus:outline-none focus:border-blue-500 sm:text-sm/6"
               required

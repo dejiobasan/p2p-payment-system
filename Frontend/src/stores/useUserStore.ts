@@ -92,7 +92,7 @@ export const useUserStore = create<UserStore>((set) => ({
       if (response.data.success) {
         set({ user: response.data.User, loading: false });
         setToken(response.data.token);
-        toast.success(response.data.message);
+        toast.success(`Welcome ${response.data.User.username}!`);
       } else {
         toast.error(response.data.message);
       }
@@ -108,7 +108,7 @@ export const useUserStore = create<UserStore>((set) => ({
       const { setToken } = useAuthStore.getState();
       setToken("");
       set({ user: null, loading: false });
-      toast("User logged out successfully");
+      toast.success("User logged out successfully");
     } catch (error) {
       console.log(error);
       toast.error("An error occurred");

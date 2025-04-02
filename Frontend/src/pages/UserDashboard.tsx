@@ -1,9 +1,9 @@
-
+import Sidenav from "../components/Navbars/sidenav"
 
 const UserDashboard = () => {
   return (
-    <div>UserDashboard</div>
+    <Sidenav />
   )
 }
 
-export default UserDashboard
+export default UserDashboard;
