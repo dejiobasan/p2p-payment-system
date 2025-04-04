@@ -33,6 +33,11 @@ interface LoginData {
   password: string;
 }
 
+interface AddFundsData {
+  email: string;
+  amount: number;
+}
+
 interface LoginResponse {
   success: boolean;
   message: string;
@@ -51,6 +56,7 @@ interface UserStore {
   register: (data: RegisterData) => Promise<void>;
   login: (data: LoginData) => Promise<void>;
   logout: () => Promise<void>;
+  addFunds: (data: AddFundsData) => Promise<void>;
 }
 
 export const useUserStore = create<UserStore>((set) => ({
@@ -114,4 +120,21 @@ export const useUserStore = create<UserStore>((set) => ({
       toast.error("An error occurred");
     }
   },
+
+  addFunds: async (data:  AddFundsData) => {
+    set({ loading: true });
+    try {
+      const response = await axios.post("/api/auth/addFunds", data);
+      if (response.data.success) {
+        set({ user: response.data.newBalance, loading: false });
+        toast.success(response.data.message);
+      }
+      else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("An error occurred while adding funds");
+    }
+  }
 }));

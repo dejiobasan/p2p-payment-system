@@ -84,6 +84,8 @@ export const addFunds = async (req: Request, res: Response): Promise<any> => {
       success: true,
       message: "Funds added successfully",
       newBalance: {
+        id: user._id,
+        username: user.username,
         email: user.email,
         balance: user.balance,
       },
