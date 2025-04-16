@@ -89,4 +89,27 @@ export const getTransactionHistory = async (req: Request, res: Response): Promis
   }
 };
 
+export const getUserTransactions = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const { userId } = req.params;
+    
+    const transactions = await Transaction.find({
+      $or: [{ senderId: userId }, { receiverId: userId }],
+    })
+      .populate("senderId", "name email")
+      .populate("receiverId", "name email")
+      .sort({ createdAt: -1 });
+
+    if (!transactions || transactions.length === 0) {
+      return res.status(404).json({ message: "No transactions found for this user" });
+    }
+    return res.status(200).json(transactions);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: (error as Error).message });
+  }
+};
+
+
+
 
