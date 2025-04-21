@@ -48,7 +48,6 @@ export const useTransactionStore = create<TransactionStore>((set) => ({
         }
       );
       set({ transactions: response.data });
-      toast.success("Transactions fetched successfully!");
     } catch (error) {
       toast.error("Failed to fetch transactions");
       console.error(error);
