@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import axios from "../lib/axios";
 import { toast } from "react-hot-toast";
-import { useAuthStore } from "../stores/useAuthStore";
 
 interface User {
   id: string;
@@ -89,7 +88,6 @@ export const useUserStore = create<UserStore>((set) => ({
   },
 
   login: async (data: LoginData) => {
-    const { setToken } = useAuthStore.getState();
     set({ loading: true });
     try {
       const response = await axios.post<LoginResponse>("api/auth/login", data, {
@@ -97,7 +95,6 @@ export const useUserStore = create<UserStore>((set) => ({
       });
       if (response.data.success) {
         set({ user: response.data.User, loading: false });
-        setToken(response.data.token);
         toast.success(`Welcome ${response.data.User.username}!`);
       } else {
         toast.error(response.data.message);
@@ -110,15 +107,16 @@ export const useUserStore = create<UserStore>((set) => ({
   },
 
   logout: async () => {
+    set({ loading: true });
     try {
-      const { setToken } = useAuthStore.getState();
-      setToken("");
+      await axios.post("/api/auth/logout", {}, { withCredentials: true });
       set({ user: null, loading: false });
       toast.success("User logged out successfully");
     } catch (error) {
       console.log(error);
       toast.error("An error occurred");
     }
+    set({ loading: false });
   },
 
   addFunds: async (data:  AddFundsData) => {

@@ -45,6 +45,13 @@ export const login = async (req: Request, res: Response): Promise<any> => {
       expiresIn: "1h",
     });
 
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 3600000, // 1 hour
+    });
+
     res.json({
       success: true,
       message: "Login successful",
@@ -54,9 +61,23 @@ export const login = async (req: Request, res: Response): Promise<any> => {
         email: user.email,
         balance: user.balance
       },
-      token,
     });
   } catch (error) {
+    res.status(500).json({ error: (error as Error).message });
+  }
+};
+
+export const logout = async (req: Request, res: Response): Promise<any> => {
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    });
+
+    res.status(200).json({ message: "Logout successful" });
+  } catch (error) {
+    console.error("Error during logout:", error);
     res.status(500).json({ error: (error as Error).message });
   }
 };
