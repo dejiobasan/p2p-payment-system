@@ -59,7 +59,7 @@ export const login = async (req: Request, res: Response): Promise<any> => {
         id: user._id,
         username: user.username,
         email: user.email,
-        balance: user.balance
+        balance: user.balance,
       },
     });
   } catch (error) {
@@ -77,7 +77,6 @@ export const logout = async (req: Request, res: Response): Promise<any> => {
 
     res.status(200).json({ message: "Logout successful" });
   } catch (error) {
-    console.error("Error during logout:", error);
     res.status(500).json({ error: (error as Error).message });
   }
 };
@@ -90,7 +89,6 @@ export const getUsers = async (req: Request, res: Response): Promise<any> => {
     );
     res.json(users);
   } catch (error) {
-    console.error("Error fetching users:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -123,12 +121,11 @@ export const getBalance = async (req: Request, res: Response): Promise<any> => {
     const user = await User.findById(id);
     if (!user) return res.status(404).json({ message: "User not found" });
     res.status(200).json({
-      User: 
-        {
-          email: user.email,
-          balance: user.balance,
-        },
-     });
+      User: {
+        email: user.email,
+        balance: user.balance,
+      },
+    });
   } catch (error) {
     res.status(500).json({ error: (error as Error).message });
   }

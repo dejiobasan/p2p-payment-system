@@ -25,7 +25,6 @@ export const createTransaction = async (req: Request, res: Response): Promise<an
 
     return res.status(201).json({ message: "Transaction initiated", transaction });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: (error as Error).message });
   }
 };
@@ -67,7 +66,6 @@ export const completeTransaction = async (req: Request, res: Response): Promise<
 
     return res.status(200).json({ message: "Transaction completed", transaction });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: (error as Error).message });
   }
 };
@@ -105,7 +103,6 @@ export const getUserTransactions = async (req: Request, res: Response): Promise<
     }
     return res.status(200).json(transactions);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: (error as Error).message });
   }
 };

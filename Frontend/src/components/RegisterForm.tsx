@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useUserStore } from "../stores/useUserStore";
-import { ArrowRight, Loader, UserPlus,} from "lucide-react";
+import { ArrowRight, Loader, UserPlus } from "lucide-react";
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -41,7 +41,7 @@ const RegisterForm = () => {
 
   const HandleBack = () => {
     navigate("/");
-  }
+  };
 
   return (
     <>

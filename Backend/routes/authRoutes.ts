@@ -1,5 +1,12 @@
 import express from "express";
-import { register, login, logout, getBalance, addFunds, getUsers } from "../controllers/authController";
+import {
+  register,
+  login,
+  logout,
+  getBalance,
+  addFunds,
+  getUsers,
+} from "../controllers/authController";
 import { authMiddleware } from "../middleware/auth";
 const router = express.Router();
 
